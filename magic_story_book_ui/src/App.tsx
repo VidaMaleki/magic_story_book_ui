@@ -9,7 +9,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/create-story" Component={CreateStoryPage} />
+        <Route path="/" Component={CreateStoryPage} />
         <Route path="/login" Component={LoginPage} />
         <Route path="/profile" Component={ProfilePage} />
         <Route path="/display-story/:id" Component={DisplayStoryPage} />
