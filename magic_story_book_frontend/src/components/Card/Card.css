@@ -1,0 +1,53 @@
+.card {
+    position: relative;
+    width: 280px;
+    height: 180px;
+    margin: 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+    transition: filter 0.2s;
+  }
+  
+  .card:hover img {
+    filter: brightness(0.5);
+  }
+  
+  .card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    transition: background 0.2s;
+  }
+  
+  .card:hover .genre-info {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  
+  .card-info h3 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .card-info p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+  }

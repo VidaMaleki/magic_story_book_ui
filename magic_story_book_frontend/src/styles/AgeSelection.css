@@ -1,0 +1,96 @@
+.age-selection-container {
+  height: 100vh;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.age-selection-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 1)
+  );
+}
+.age-selection-container {
+  background-image: url("../images/magic_back.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+.age-main-content {
+  background-color: rgba(255, 255, 255, 0.9);
+  /* padding: 20px; */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.agecard {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  display: inline-block;
+  
+}
+
+.agecard h2 {
+  margin-top: 0;
+  margin-left: 0px;
+}
+.agecard p {
+  margin-top: 0;
+  margin-left: 0px;
+}
+
+.age-buttons {
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: center; */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-items: center;
+}
+
+.age-buttons button {
+  height: 80px;
+  width: 150px;
+  background-color: white;
+  border: 2px solid #0a7bbc;
+  border-radius: 5px;
+  color: #0a7bbc;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.age-buttons button:hover {
+  background-color:#0a7bbc;
+  color: white;
+  border: 2px solid #0a7bbc;
+}
+
+.continue-button {
+  background-color: #0a7bbc;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.continue-button:hover {
+  background-color: #066195;
+}
