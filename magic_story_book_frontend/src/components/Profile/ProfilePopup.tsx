@@ -8,6 +8,7 @@ interface ProfilePopupProps {
 }
 
 interface UserProfile {
+  id: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -15,9 +16,7 @@ interface UserProfile {
   lexile: string;
 }
 
-const ProfilePopup: FC<ProfilePopupProps> = ({
-  onClose,
-}) => {
+const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>(null);
 
@@ -37,11 +36,10 @@ const ProfilePopup: FC<ProfilePopupProps> = ({
   const handleLogout = async () => {
     try {
       console.log('Attempting to log out...');
-      // Send a GET request to initiate logout
       const response = await axios.get('http://localhost:8081/logout', { withCredentials: true });
       console.log('Logout response:', response);
       if (response.status === 200 || response.status === 302) {
-        navigate('/signup');
+        navigate('/signup', { replace: true });
       } else {
         console.error('Logout failed with status:', response.status);
       }
@@ -54,17 +52,16 @@ const ProfilePopup: FC<ProfilePopupProps> = ({
   };
 
   const handleDeleteAccount = async () => {
-    if (!profile?.email) {
-      console.error('Email is not available');
+    if (!profile?.id) {
+      console.error('User ID is not available');
       return;
     }
 
     try {
-      const response = await axios.delete(`http://localhost:8081/api/user/email?email=${profile.email}`, { withCredentials: true });
+      const response = await axios.delete(`http://localhost:8081/api/user/${profile.id}`, { withCredentials: true });
       console.log('Delete account response:', response);
       if (response.status === 200 || response.status === 204) {
-        // onDeleteAccount();
-        navigate('/signup');
+        navigate('/signup', { replace: true });
       } else {
         console.error('Delete account failed with status:', response.status);
       }
