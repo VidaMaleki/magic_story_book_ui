@@ -19,14 +19,19 @@ interface UserProfile {
 const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/api/user/profile', { withCredentials: true });
+        console.log("Fetching profile...");
+        const response = await axios.get("http://localhost:8081/api/user/profile", { withCredentials: true });
+        console.log("Profile response:", response);
         setProfile(response.data);
       } catch (error) {
-        console.error('Failed to fetch profile', error);
+        console.error("Failed to fetch profile", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -35,50 +40,61 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
 
   const handleLogout = async () => {
     try {
-      console.log('Attempting to log out...');
-      const response = await axios.get('http://localhost:8081/api/user/logout', { withCredentials: true });
-      console.log('Logout response:', response);
+      console.log("Attempting to log out...");
+      const response = await axios.get("http://localhost:8081/logout", { withCredentials: true });
+      console.log("Logout response:", response);
       if (response.status === 200 || response.status === 302) {
-        navigate('/signup', { replace: true });
+        navigate("/signup");
       } else {
-        console.error('Logout failed with status:', response.status);
+        console.error("Logout failed with status:", response.status);
       }
     } catch (error) {
-      console.error('Logout failed', error);
+      console.error("Logout failed", error);
       if (axios.isAxiosError(error)) {
-        console.error('Axios error details:', error.response);
+        console.error("Axios error details:", error.response);
       }
     }
   };
 
   const handleDeleteAccount = async () => {
     if (!profile?.id) {
-      console.error('User ID is not available');
+      console.error("User ID is not available");
       return;
     }
 
     try {
       const response = await axios.delete(`http://localhost:8081/api/user/${profile.id}`, { withCredentials: true });
-      console.log('Delete account response:', response);
+      console.log("Delete account response:", response);
       if (response.status === 200 || response.status === 204) {
-        navigate('/signup', { replace: true });
+        navigate("/signup");
       } else {
-        console.error('Delete account failed with status:', response.status);
+        console.error("Delete account failed with status:", response.status);
       }
     } catch (error) {
-      console.error('Delete account failed', error);
+      console.error("Delete account failed", error);
       if (axios.isAxiosError(error)) {
-        console.error('Axios error details:', error.response);
+        console.error("Axios error details:", error.response);
       }
     }
   };
+
+  if (loading) {
+    return (
+      <>
+        <div className="profile-popup-overlay" />
+        <div className="loading-container">
+          <div>Loading...</div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
       <div className="profile-popup-overlay" onClick={onClose} />
       <div className="profile-popup">
         <div className="profile-popup-header">
-          <h2>Edit Profile</h2>
+          <h2>Profile</h2>
           <button onClick={onClose} className="close-button">
             &times;
           </button>
@@ -89,14 +105,7 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
             <button className="change-photo-button">Change Photo</button>
           </div>
           <div className="profile-fields">
-            <div className="field-group">
-              <label>First Name</label>
-              <input type="text" placeholder="First" value={profile?.firstName || ""} disabled />
-            </div>
-            <div className="field-group">
-              <label>Last Name</label>
-              <input type="text" placeholder="Last" value={profile?.lastName || ""} disabled />
-            </div>
+            <h3>{profile?.firstName} {profile?.lastName}</h3>
             <div className="field-group">
               <label>Child's age</label>
               <select value={profile?.age || "3 years old"} disabled>

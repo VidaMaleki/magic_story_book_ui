@@ -48,7 +48,7 @@ const SettingSelection: React.FC<SettingSelectionProps> = ({
       <button className="back-button" onClick={handleBackClick}>Back</button>
       <button className="next-button" onClick={handleNextClick}>Next</button>
       </div>
-      
+
     </div>
   );
 };

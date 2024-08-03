@@ -25,7 +25,7 @@ const Navbar = () => {
     <div className="navbar-container">
       <div className="logo-wrapper">
         <Link to="/">
-          <img alt="Logo" src="/images/magicstorybook.png"/>
+          <img alt="Logo" src="/images/magicstorybook.png" />
         </Link>{" "}
       </div>
       <div className="button-wrapper">
@@ -46,13 +46,13 @@ const Navbar = () => {
         />
       </div>
       <div className="profile-icon" onClick={toggleProfilePopup}>
-        <img
-          alt="Profile"
-          src="/images/profile.png"
-        />
+        <img alt="Profile" src="/images/profile.png" />
       </div>
       {isProfilePopupVisible && (
-        <ProfilePopup onClose={closeProfilePopup} />
+        <ProfilePopup
+          onClose={closeProfilePopup}
+          // onLogout={handleLogout}
+        />
       )}
     </div>
   );

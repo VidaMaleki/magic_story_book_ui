@@ -27,7 +27,6 @@
 }
 .age-main-content {
   background-color: rgba(255, 255, 255, 0.9);
-  /* padding: 20px; */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -40,9 +39,7 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   display: inline-block;
-  
 }
-
 .agecard h2 {
   margin-top: 0;
   margin-left: 0px;
@@ -53,9 +50,6 @@
 }
 
 .age-buttons {
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: center; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
@@ -74,10 +68,10 @@
   cursor: pointer;
 }
 
-.age-buttons button:hover {
-  background-color:#0a7bbc;
+.age-buttons button:hover,
+.age-buttons .selected {
+  background-color: #0a7bbc;
   color: white;
-  border: 2px solid #0a7bbc;
 }
 
 .continue-button {

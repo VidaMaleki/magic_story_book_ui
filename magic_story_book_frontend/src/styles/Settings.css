@@ -8,17 +8,17 @@
     text-align: left;
     margin-bottom: 100px;
   }
-  
+
   .setting-selection-container h2 {
     margin-top: 0;
     margin-left: 10px;
   }
-  
+
   .setting-selection-container p,
   h4 {
     margin-left: 10px;
   }
-  
+
   .setting-buttons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -28,9 +28,9 @@
   .setting-card-wrapper {
     display: flex;
     justify-content: space-between;
-    
+
   }
-  
+
   .buttons-wrapper {
     display: flex;
     justify-content: space-between;
@@ -51,13 +51,12 @@
     margin-top: 20px;
     cursor: pointer;
   }
-  
+
   .back-button:hover,
   .next-button:hover {
     background-color: #f79e03;
   }
-  
+
   .back-button {
     margin-right: 10px;
   }
-  

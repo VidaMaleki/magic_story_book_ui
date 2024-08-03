@@ -41,7 +41,7 @@ const SignInPage: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/api/user/profile', {
+        await axios.get('http://localhost:8081/api/user/profile', {
           withCredentials: true
         });
         navigate('/'); // Redirect to home if the user is already logged in
