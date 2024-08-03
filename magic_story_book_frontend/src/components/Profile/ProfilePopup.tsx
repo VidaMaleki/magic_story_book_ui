@@ -8,7 +8,7 @@ interface ProfilePopupProps {
 }
 
 interface UserProfile {
-  id: string;
+  id: number;
   email: string;
   firstName: string;
   lastName: string;
@@ -36,7 +36,7 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
   const handleLogout = async () => {
     try {
       console.log('Attempting to log out...');
-      const response = await axios.get('http://localhost:8081/logout', { withCredentials: true });
+      const response = await axios.get('http://localhost:8081/api/user/logout', { withCredentials: true });
       console.log('Logout response:', response);
       if (response.status === 200 || response.status === 302) {
         navigate('/signup', { replace: true });
