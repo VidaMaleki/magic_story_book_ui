@@ -9,7 +9,7 @@ interface Inputs {
   age: string;
 }
 
-const API_KEY = "sk-proj-518dE8pizjnywXoOPgfhT3BlbkFJ1NVwqvyiWeqddDkoZFoz";
+const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 export const generateStory = async (inputs: Inputs): Promise<string> => {
   const { genre, characters, setting, wordCount, specialMessage, age } = inputs;
