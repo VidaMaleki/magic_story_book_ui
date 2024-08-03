@@ -1,0 +1,86 @@
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+.signup-wrapper {
+  padding: 30px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#app-img {
+  width: 100%;
+}
+.signup-container button {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border: 1px solid rgb(7, 107, 121);
+  border-radius: 15px;
+}
+#google-img {
+  padding-right: 10px;
+}
+.signin-wrapper {
+  display: flex;
+}
+.signin-wrapper p {
+  color: rgb(13 110 253);
+}
+#signin-img {
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(13 110 253);
+}
+.auth-form {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.auth-form h2 {
+  margin-bottom: 1.5rem;
+}
+.signup-image img {
+  width: 100%;
+}
+
+.auth-form .social-login button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  color: #444;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.auth-form .social-login button img {
+  margin-right: 0.5rem;
+}
+
+.auth-form .social-login button:hover {
+  background-color: #f5f5f5;
+}
