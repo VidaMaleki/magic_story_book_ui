@@ -1,24 +1,19 @@
+// import React from "react";
 import "./Card.css";
 
 interface CardProps {
   image: string;
   name: string;
   description: string;
-  selected: boolean;
   height?: string;
-  onClick: () => void;
 }
 
-const Card: React.FC<CardProps> = (props) => {
-  const { image, name, description, height, selected, onClick } = props;
+const Card = (props: CardProps) => {
+  const {image, name, description, height } = props;
 
   return (
-    <div 
-      className={`card ${selected ? "selected" : ""}`} 
-      style={{ height: height }} 
-      onClick={onClick}
-    >
-      <img src={image} alt={name} />
+    <div className="card" key={name} style={{height: height}}>
+      <img src={`${import.meta.env.VITE_PUBLIC_URL}/images/${image}`} alt={name} />
       <div className="card-info">
         <h3>{name}</h3>
         <p>{description}</p>

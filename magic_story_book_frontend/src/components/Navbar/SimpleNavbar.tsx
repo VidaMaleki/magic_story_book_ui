@@ -8,7 +8,10 @@ const SimpleNavbar = () => {
     <div className="navbar-container">
       <div className="logo-wrapper">
         <Link to="/">
-          <img alt="Logo" src="/images/magicstorybook.png" />
+          <img
+            alt="Logo"
+            src={`${import.meta.env.VITE_PUBLIC_URL}/images/magicstorybook.png`}
+          />
         </Link>{" "}
       </div>
     </div>

@@ -2,30 +2,19 @@ import { useEffect, useState } from "react";
 import NavButton from "./NavButton";
 import "./Navbar.css";
 import { Link, useLocation } from "react-router-dom";
-import ProfilePopup from "../Profile/ProfilePopup";
 
 const Navbar = () => {
   const location = useLocation();
-  const [selected, setSelected] = useState("");
-  const [isProfilePopupVisible, setProfilePopupVisible] = useState(false); // State for popup visibility
 
+  const [selected, setSelected] = useState("");
   useEffect(() => {
     setSelected(location.pathname);
   }, [location]);
-
-  const toggleProfilePopup = () => {
-    setProfilePopupVisible(!isProfilePopupVisible);
-  };
-
-  const closeProfilePopup = () => {
-    setProfilePopupVisible(false);
-  };
-
   return (
     <div className="navbar-container">
       <div className="logo-wrapper">
         <Link to="/">
-          <img alt="Logo" src="/images/magicstorybook.png" />
+          <img alt="Logo" src={`${import.meta.env.VITE_PUBLIC_URL}/magicstorybook.png`} />
         </Link>{" "}
       </div>
       <div className="button-wrapper">
@@ -45,15 +34,14 @@ const Navbar = () => {
           isSelected={selected === "/library"}
         />
       </div>
-      <div className="profile-icon" onClick={toggleProfilePopup}>
-        <img alt="Profile" src="/images/profile.png" />
+      <div className="profile-icon">
+        <Link to="/profile">
+          <img
+            alt="Profile"
+            src={`${import.meta.env.VITE_PUBLIC_URL}/images/profile.png`}
+          />
+        </Link>
       </div>
-      {isProfilePopupVisible && (
-        <ProfilePopup
-          onClose={closeProfilePopup}
-          // onLogout={handleLogout}
-        />
-      )}
     </div>
   );
 };

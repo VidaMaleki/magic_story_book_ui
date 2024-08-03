@@ -41,12 +41,6 @@
   .card:hover .genre-info {
     background: rgba(0, 0, 0, 0.7);
   }
-  .card.selected {
-    transform: scale(1.05);
-    border: 4px solid #0a7bbc;
-    border-radius: 15px;
-  }
-  
   
   .card-info h3 {
     margin: 0;
