@@ -14,7 +14,7 @@ const Navbar = () => {
     <div className="navbar-container">
       <div className="logo-wrapper">
         <Link to="/">
-          <img alt="Logo" src={`${import.meta.env.VITE_PUBLIC_URL}/magicstorybook.png`} />
+          <img alt="Logo" src="/images/magicstorybook.png"/>
         </Link>{" "}
       </div>
       <div className="button-wrapper">
@@ -38,7 +38,7 @@ const Navbar = () => {
         <Link to="/profile">
           <img
             alt="Profile"
-            src={`${import.meta.env.VITE_PUBLIC_URL}/images/profile.png`}
+            src="/images/profile.png"
           />
         </Link>
       </div>
