@@ -1,0 +1,63 @@
+.setting-selection-container {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 100px;
+  }
+  
+  .setting-selection-container h2 {
+    margin-top: 0;
+    margin-left: 10px;
+  }
+  
+  .setting-selection-container p,
+  h4 {
+    margin-left: 10px;
+  }
+  
+  .setting-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-items: center;
+  }
+  .setting-card-wrapper {
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .next-button:hover {
+    background-color: #0056b3;
+  }
+  .back-button,
+  .next-button {
+    background-color: #0a7bbc;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  
+  .back-button:hover,
+  .next-button:hover {
+    background-color: #f79e03;
+  }
+  
+  .back-button {
+    margin-right: 10px;
+  }
+  

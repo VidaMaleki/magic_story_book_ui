@@ -1,5 +1,6 @@
 .create-story-container {
-  height: 100vh;
+  margin-top: 58px;
+  height: 80vh;
   position: relative;
   width: 100%;
   display: flex;
@@ -27,19 +28,15 @@
 }
 
 .create-story-main-content {
-  margin-top: 80px;
+ 
+  height: 100%;
+  margin-top: 180px;
   position: relative;
   z-index: 1;
 }
-.genre-card-wrapper {
+.genre-card-wrapper {  
   cursor: pointer;
   transition: transform 0.2s;
-}
-
-.genre-card-wrapper.selected {
-  transform: scale(1.05);
-  border: 2px solid #0a7bbc;
-  border-radius: 15px;
 }
 
 .genre-card-wrapper:hover {
@@ -85,7 +82,54 @@
 .next-button:hover {
   background-color: #0a7bbc;
 }
+.loading-container {
+  text-align: center;
+  margin-top: 50px;
+}
 
+.loading-bar {
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.loading-progress {
+  height: 100%;
+  width: 0;
+  background-color: #4caf50;
+  animation: loading 2s infinite;
+}
+
+@keyframes loading {
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+.story-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.story-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.story-container p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0 20px;
+}
 @media (max-width: 768px) {
   .genre-buttons {
     grid-template-columns: repeat(2, 1fr);
