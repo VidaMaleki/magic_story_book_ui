@@ -11,10 +11,15 @@
 
 .title-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
-
+.dropdowns-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;flex-direction: row;gap:20px;
+}
 .dropdown-container {
   display: flex;
   align-items: center;
@@ -68,4 +73,17 @@
 .back-button:hover,
 .next-button:hover {
   background-color: #f79e03;
+}
+.dropdown-container {
+  margin: 10px 0;
+}
+
+.dropdown-container label {
+  margin-right: 10px;
+}
+
+.dropdown-container select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
