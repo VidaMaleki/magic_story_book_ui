@@ -7,7 +7,7 @@ import CharacterSelection from "../components/Story/CharacterSelection";
 import SettingSelection from "../components/Story/SettingSelection";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import SpecialRequest from "../components/Story/SpecialRequest";
-import { generateStory } from "../api/openaiClient";
+import { createStory } from "../api/storyService";
 import { Inputs } from "../components/types";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "../components/Story/LoadingScreen";
@@ -21,12 +21,12 @@ const CreateStoryPage: React.FC = () => {
     genre: "",
     characters: [],
     setting: "",
-    wordCount: "",
+    wordCount: "100",
     specialMessage: "",
-    age: "",
+    age: "3-5",
+    title: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
-  // const [story, setStory] = useState<string>("");
   const navigate = useNavigate();
   const totalSteps = 4;
 
@@ -38,6 +38,22 @@ const CreateStoryPage: React.FC = () => {
     }));
   };
 
+  const handleCharacterSelect = (characters: string[]) => {
+    setSelectedCharacters(characters);
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      characters: characters,
+    }));
+  };
+
+  const handleSettingSelect = (setting: string) => {
+    setSelectedSetting(setting);
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      setting: setting,
+    }));
+  };
+
   const handleNextClick = () => {
     if (step === 1 && selectedGenre) {
       setStep(2);
@@ -46,7 +62,7 @@ const CreateStoryPage: React.FC = () => {
     } else if (step === 3 && selectedSetting) {
       setStep(4);
     } else if (step === 4) {
-      // Handle final step, saving the story to the database
+      handleGenerateStory();
     } else {
       alert("Please make a selection before proceeding.");
     }
@@ -58,9 +74,22 @@ const CreateStoryPage: React.FC = () => {
 
   const handleGenerateStory = async () => {
     setLoading(true);
-    const generatedStory = await generateStory(inputs);
-    setLoading(false);
-    navigate("/story", { state: { story: generatedStory } });
+    try {
+      const generatedStory = await createStory({
+        genre: inputs.genre,
+        setting: inputs.setting,
+        characters: inputs.characters,
+        title: inputs.title,
+        specialMessage: inputs.specialMessage,
+        age: inputs.age,
+        wordCount: inputs.wordCount,
+      });
+      setLoading(false);
+      navigate("/story", { state: { story: generatedStory } });
+    } catch (error) {
+      setLoading(false);
+      alert("Error generating story. Please try again.");
+    }
   };
 
   return (
@@ -100,7 +129,7 @@ const CreateStoryPage: React.FC = () => {
         {step === 2 && (
           <CharacterSelection
             selectedCharacters={selectedCharacters}
-            setSelectedCharacters={setSelectedCharacters}
+            setSelectedCharacters={handleCharacterSelect}
             handleNextClick={handleNextClick}
             handleBackClick={handleBackClick}
           />
@@ -108,7 +137,7 @@ const CreateStoryPage: React.FC = () => {
         {step === 3 && (
           <SettingSelection
             selectedSetting={selectedSetting}
-            setSelectedSetting={setSelectedSetting}
+            setSelectedSetting={handleSettingSelect}
             handleNextClick={handleNextClick}
             handleBackClick={handleBackClick}
           />

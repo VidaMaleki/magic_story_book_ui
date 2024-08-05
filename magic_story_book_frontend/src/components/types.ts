@@ -5,4 +5,5 @@ export interface Inputs {
     wordCount: string;
     specialMessage: string;
     age: string;
+    title: string;
   }

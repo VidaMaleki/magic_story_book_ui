@@ -3,7 +3,6 @@ import { SettingsData } from "../../assets/settings";
 import Card from "../Card";
 import "../../styles/Settings.css";
 
-
 interface SettingSelectionProps {
   selectedSetting: string | null;
   setSelectedSetting: (setting: string) => void;
@@ -17,7 +16,6 @@ const SettingSelection: React.FC<SettingSelectionProps> = ({
   handleNextClick,
   handleBackClick,
 }) => {
-
   const handleSettingSelect = (setting: string) => {
     setSelectedSetting(setting);
   };
@@ -45,10 +43,9 @@ const SettingSelection: React.FC<SettingSelectionProps> = ({
         ))}
       </div>
       <div className="buttons-wrapper">
-      <button className="back-button" onClick={handleBackClick}>Back</button>
-      <button className="next-button" onClick={handleNextClick}>Next</button>
+        <button className="back-button" onClick={handleBackClick}>Back</button>
+        <button className="next-button" onClick={handleNextClick}>Next</button>
       </div>
-
     </div>
   );
 };

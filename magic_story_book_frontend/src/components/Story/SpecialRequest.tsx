@@ -16,7 +16,7 @@ const SpecialRequest: React.FC<SpecialRequestProps> = ({
   handleBackClick,
 }) => {
   const handleInputChange = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setInputs((prevInputs: Inputs) => ({
@@ -46,20 +46,31 @@ const SpecialRequest: React.FC<SpecialRequestProps> = ({
             </select>
           </div>
           <div className="dropdown-container">
-            <label htmlFor="age-selection">Child's Age range:</label>
+            <label htmlFor="age-selection">Child's Age Range:</label>
             <select
               id="age-selection"
-              name="childAge"
+              name="age"
               value={inputs.age}
               onChange={handleInputChange}
             >
               <option value="" disabled>
-                Select age
+                Select age range
               </option>
               <option value="3-5">3-5 years</option>
               <option value="5-7">5-7 years</option>
               <option value="7-9">7-9 years</option>
             </select>
+          </div>
+          <div className="input-container">
+            <label htmlFor="story-title">Story Title:</label>
+            <input
+              id="story-title"
+              name="title"
+              type="text"
+              value={inputs.title}
+              onChange={handleInputChange}
+              placeholder="Enter story title"
+            />
           </div>
         </div>
       </div>
