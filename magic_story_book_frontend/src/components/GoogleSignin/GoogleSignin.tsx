@@ -16,7 +16,7 @@ const GoogleSignin: React.FC = () => {
                 navigate('/'); // Redirect to home or any other page
             } catch (error) {
                 console.error('Error fetching user profile:', error);
-                navigate('/signin'); // Redirect to sign-in page if there's an error
+                navigate('/signup');
             }
         };
 

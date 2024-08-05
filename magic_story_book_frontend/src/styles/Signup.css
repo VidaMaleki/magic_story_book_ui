@@ -22,14 +22,19 @@
 #app-img {
   width: 100%;
 }
-.signup-container button {
+#signup-btn {
+  width: 100%;
   background-color: white;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 10px 20px;
-  border: 1px solid rgb(7, 107, 121);
+  padding: 15px 20px;
+  border: none;
   border-radius: 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 #google-img {
   padding-right: 10px;
@@ -40,7 +45,8 @@
 .signin-wrapper p {
   color: rgb(13 110 253);
 }
-#signin-img {
+#signin-btn {display: flex;justify-content: center;align-items: center;
+  background-color: white;
   border: none;
   font-size: 16px;
   font-weight: 600;
