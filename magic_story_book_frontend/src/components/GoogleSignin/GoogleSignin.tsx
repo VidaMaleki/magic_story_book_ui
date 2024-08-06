@@ -1,30 +1,19 @@
+// src/components/GoogleSignIn.tsx
 import React from 'react';
 import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from '@react-oauth/google';
-import axios from 'axios';
 import './GoogleSignIn.css';
 
 const GoogleSignIn: React.FC = () => {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-  const handleSuccess = async (response: CredentialResponse) => {
+  const handleSuccess = (response: CredentialResponse) => {
     console.log(response);
-
     if (response.credential) {
-      try {
-        const token = response.credential;
-        // Store the token in localStorage (or sessionStorage)
-        localStorage.setItem('authToken', token);
+      // Store the token in localStorage (or sessionStorage)
+      localStorage.setItem('authToken', response.credential);
 
-        // Send the token to the backend
-        const res = await axios.post('http://localhost:8081/signup', { token });
-
-        if (res.status === 200) {
-          console.log('User registered successfully:', res.data);
-          // Handle successful registration (e.g., navigate to another page or update UI)
-        }
-      } catch (error) {
-        console.error('Error registering user:', error);
-      }
+      // Redirect to the backend endpoint to complete signup
+      window.location.href = 'http://localhost:8081/signup/complete';
     }
   };
 

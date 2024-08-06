@@ -11,8 +11,10 @@ import { createStory } from "../api/storyService";
 import { Inputs } from "../components/types";
 import { useNavigate } from "react-router-dom";
 import LoadingScreen from "../components/Story/LoadingScreen";
+import { useAuth } from "../context/AuthContext";
 
 const CreateStoryPage: React.FC = () => {
+  const { isAuthenticated } = useAuth();
   const [step, setStep] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
@@ -29,6 +31,10 @@ const CreateStoryPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const totalSteps = 4;
+
+  if (!isAuthenticated) {
+    return <div>Loading...</div>;
+  }
 
   const handleGenreSelect = (genre: string) => {
     setSelectedGenre(genre);
@@ -84,9 +90,11 @@ const CreateStoryPage: React.FC = () => {
         age: inputs.age,
         wordCount: inputs.wordCount,
       });
+      console.log("generatedStory:",generatedStory);
       setLoading(false);
       navigate("/story", { state: { story: generatedStory } });
     } catch (error) {
+      console.error("Error inside create story:", error);
       setLoading(false);
       alert("Error generating story. Please try again.");
     }

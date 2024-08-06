@@ -2,23 +2,15 @@ import React, { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../styles/ProfilePopup.css";
+import { useAuth } from "../../context/AuthContext";
 
 interface ProfilePopupProps {
   onClose: () => void;
 }
 
-interface UserProfile {
-  id: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  age: string;
-  lexile: string;
-}
-
 const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const { userProfile, setUserProfile, logout } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -27,7 +19,7 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
         console.log("Fetching profile...");
         const response = await axios.get("http://localhost:8081/api/user/profile", { withCredentials: true });
         console.log("Profile response:", response);
-        setProfile(response.data);
+        setUserProfile(response.data);
       } catch (error) {
         console.error("Failed to fetch profile", error);
       } finally {
@@ -36,45 +28,25 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
     };
 
     fetchProfile();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      console.log("Attempting to log out...");
-      const response = await axios.get("http://localhost:8081/logout", { withCredentials: true });
-      console.log("Logout response:", response);
-      if (response.status === 200 || response.status === 302) {
-        navigate("/signup");
-      } else {
-        console.error("Logout failed with status:", response.status);
-      }
-    } catch (error) {
-      console.error("Logout failed", error);
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error details:", error.response);
-      }
-    }
-  };
+  }, [setUserProfile]);
 
   const handleDeleteAccount = async () => {
-    if (!profile?.id) {
+    if (!userProfile?.id) {
       console.error("User ID is not available");
       return;
     }
 
     try {
-      const response = await axios.delete(`http://localhost:8081/api/user/${profile.id}`, { withCredentials: true });
+      const response = await axios.delete(`http://localhost:8081/api/user/${userProfile.id}`, { withCredentials: true });
       console.log("Delete account response:", response);
       if (response.status === 200 || response.status === 204) {
+        setUserProfile(null);
         navigate("/signup");
       } else {
         console.error("Delete account failed with status:", response.status);
       }
     } catch (error) {
       console.error("Delete account failed", error);
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error details:", error.response);
-      }
     }
   };
 
@@ -105,10 +77,10 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
             <button className="change-photo-button">Change Photo</button>
           </div>
           <div className="profile-fields">
-            <h3>{profile?.firstName} {profile?.lastName}</h3>
+            <h3>{userProfile?.firstName} {userProfile?.lastName}</h3>
             <div className="field-group">
               <label>Child's age</label>
-              <select value={profile?.age || "3 years old"} disabled>
+              <select value={userProfile?.age || "3 years old"} disabled>
                 <option>3 years old</option>
                 <option>4 years old</option>
                 <option>5 years old</option>
@@ -119,7 +91,7 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
             </div>
             <div className="field-group">
               <label>Starting Lexile</label>
-              <input type="text" placeholder="520L" value={profile?.lexile || ""} disabled />
+              <input type="text" placeholder="520L" value={userProfile?.lexile || ""} disabled />
             </div>
           </div>
         </div>
@@ -127,7 +99,7 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
           <button className="save-button">Save Changes</button>
         </div>
         <div className="profile-popup-actions">
-          <button onClick={handleLogout} className="logout-button">
+          <button onClick={logout} className="logout-button">
             Log Out
           </button>
           <button onClick={handleDeleteAccount} className="delete-button">

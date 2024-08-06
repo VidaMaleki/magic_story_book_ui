@@ -51,7 +51,6 @@ const Navbar = () => {
       {isProfilePopupVisible && (
         <ProfilePopup
           onClose={closeProfilePopup}
-          // onLogout={handleLogout}
         />
       )}
     </div>
