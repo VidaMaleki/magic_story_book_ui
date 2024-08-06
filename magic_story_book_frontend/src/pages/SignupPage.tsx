@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import "../styles/Signup.css";
-import SimpleNavbar from "../components/Navbar/SimpleNavbar";
-import { useAuth } from "../context/AuthContext";
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import '../styles/Signup.css';
+import SimpleNavbar from '../components/Navbar/SimpleNavbar';
+import { useAuth } from '../context/AuthContext';
 
 const SignInPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { login, isAuthenticated, setUserProfile } = useAuth();
+  const { login, isAuthenticated, setUserProfile, setToken } = useAuth();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -17,21 +17,31 @@ const SignInPage: React.FC = () => {
           withCredentials: true
         });
         console.log('User profile:', response.data);
+    
         if (response.data) {
-          setUserProfile(response.data); // Update the user profile in context
-          navigate('/');
+          const { user, token } = response.data;
+    
+          // Update the user profile in context
+          setUserProfile(user);
+    
+          // Store token in local storage and update context
+          if (token) {
+            localStorage.setItem('authToken', token);
+            setToken(token);
+          }
+    
+          navigate('/'); // Redirect to the home page or desired route
         }
       } catch (error) {
         console.error('User not logged in:', error);
       }
     };
-
-    if (isAuthenticated) {
-      navigate('/');
-    } else {
+    if (!isAuthenticated) {
       fetchUser();
+    } else {
+      navigate('/');
     }
-  }, [isAuthenticated, location, navigate, setUserProfile]);
+  }, [isAuthenticated, location, navigate, setUserProfile, setToken]);
 
   return (
     <div className="signup-container">

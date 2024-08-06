@@ -1,32 +1,32 @@
-import React, { useState } from "react";
-import Navbar from "../components/Navbar/Navbar";
-import { GenresData } from "../assets/genres";
-import "../styles/CreateStory.css";
-import Card from "../components/Card";
-import CharacterSelection from "../components/Story/CharacterSelection";
-import SettingSelection from "../components/Story/SettingSelection";
-import ProgressBar from "../components/ProgressBar/ProgressBar";
-import SpecialRequest from "../components/Story/SpecialRequest";
-import { createStory } from "../api/storyService";
-import { Inputs } from "../components/types";
-import { useNavigate } from "react-router-dom";
-import LoadingScreen from "../components/Story/LoadingScreen";
-import { useAuth } from "../context/AuthContext";
+import React, { useState } from 'react';
+import Navbar from '../components/Navbar/Navbar';
+import { GenresData } from '../assets/genres';
+import '../styles/CreateStory.css';
+import Card from '../components/Card';
+import CharacterSelection from '../components/Story/CharacterSelection';
+import SettingSelection from '../components/Story/SettingSelection';
+import ProgressBar from '../components/ProgressBar/ProgressBar';
+import SpecialRequest from '../components/Story/SpecialRequest';
+import { createStory } from '../api/storyService';
+import { Inputs } from '../components/types';
+import { useNavigate } from 'react-router-dom';
+import LoadingScreen from '../components/Story/LoadingScreen';
+import { useAuth } from '../context/AuthContext';
 
 const CreateStoryPage: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated} = useAuth();
   const [step, setStep] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [selectedSetting, setSelectedSetting] = useState<string | null>(null);
   const [inputs, setInputs] = useState<Inputs>({
-    genre: "",
+    genre: '',
     characters: [],
-    setting: "",
-    wordCount: "100",
-    specialMessage: "",
-    age: "3-5",
-    title: "",
+    setting: '',
+    wordRange: '100',
+    specialMessage: '',
+    ageRange: '3-5',
+    title: '',
   });
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ const CreateStoryPage: React.FC = () => {
     } else if (step === 4) {
       handleGenerateStory();
     } else {
-      alert("Please make a selection before proceeding.");
+      alert('Please make a selection before proceeding.');
     }
   };
 
@@ -79,24 +79,23 @@ const CreateStoryPage: React.FC = () => {
   };
 
   const handleGenerateStory = async () => {
+    const token = localStorage.getItem('authToken');
+  
+    if (!token) {
+      alert('Authentication token is missing.');
+      return;
+    }
+  
     setLoading(true);
     try {
-      const generatedStory = await createStory({
-        genre: inputs.genre,
-        setting: inputs.setting,
-        characters: inputs.characters,
-        title: inputs.title,
-        specialMessage: inputs.specialMessage,
-        age: inputs.age,
-        wordCount: inputs.wordCount,
-      });
-      console.log("generatedStory:",generatedStory);
+      const generatedStory = await createStory(inputs, token); // Pass token to createStory
+      console.log('generatedStory:', generatedStory);
       setLoading(false);
-      navigate("/story", { state: { story: generatedStory } });
+      navigate('/story', { state: { story: generatedStory } });
     } catch (error) {
-      console.error("Error inside create story:", error);
+      console.error('Error inside create story:', error);
       setLoading(false);
-      alert("Error generating story. Please try again.");
+      alert('Error generating story. Please try again.');
     }
   };
 
@@ -115,7 +114,7 @@ const CreateStoryPage: React.FC = () => {
                   key={genre.name}
                   onClick={() => handleGenreSelect(genre.name)}
                   className={`genre-card-wrapper ${
-                    selectedGenre === genre.name ? "selected" : ""
+                    selectedGenre === genre.name ? 'selected' : ''
                   }`}
                 >
                   <Card

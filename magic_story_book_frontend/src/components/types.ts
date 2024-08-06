@@ -2,8 +2,8 @@ export interface Inputs {
     genre: string;
     characters: string[];
     setting: string;
-    wordCount: string;
+    wordRange: string;
     specialMessage: string;
-    age: string;
+    ageRange: string;
     title: string;
   }

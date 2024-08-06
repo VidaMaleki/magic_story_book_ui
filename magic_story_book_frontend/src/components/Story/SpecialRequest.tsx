@@ -35,7 +35,7 @@ const SpecialRequest: React.FC<SpecialRequestProps> = ({
             <select
               id="word-count"
               name="wordCount"
-              value={inputs.wordCount}
+              value={inputs.wordRange}
               onChange={handleInputChange}
             >
               <option value="100">100 words</option>
@@ -50,7 +50,7 @@ const SpecialRequest: React.FC<SpecialRequestProps> = ({
             <select
               id="age-selection"
               name="age"
-              value={inputs.age}
+              value={inputs.ageRange}
               onChange={handleInputChange}
             >
               <option value="" disabled>

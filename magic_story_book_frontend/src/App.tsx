@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CreateStoryPage from "./pages/CreateStoryPage";
 import LibraryPage from "./pages/LibraryPage";
 import AgeSelection from "./pages/AgeSelection";
-import SigninPage from "./pages/SignupPage";
+import SignInPage from "./pages/SignupPage";
 import ErrorBoundary from "./components/ErrorBoundary";
+import GoogleSignin from "./components/GoogleSignin/GoogleSignin";
 import OAuth2Callback from "./pages/OAuth2Callback";
 import StoryPage from "./pages/Story";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -15,7 +16,11 @@ const App: React.FC = () => {
     <ErrorBoundary>
       <AuthProvider>
         <Router>
-        <Routes>
+          <Routes>
+            <Route path="/signup" element={<SignInPage />} />
+            <Route path="/oauth2/callback" element={<OAuth2Callback />} />
+            <Route path="/login/oauth2/code/google" element={<GoogleSignin />} />
+            <Route path="/story" element={<StoryPage />} />
             <Route
               path="/"
               element={
@@ -24,11 +29,22 @@ const App: React.FC = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/story" element={<StoryPage />} />
-            <Route path="/signup" element={<SigninPage />} />
-            <Route path="/oauth2/callback" element={<OAuth2Callback />} />
-            <Route path="/library" element={<LibraryPage />} />
-            <Route path="/ageselection" element={<AgeSelection />} />
+            <Route
+              path="/library"
+              element={
+                <ProtectedRoute>
+                  <LibraryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ageselection"
+              element={
+                <ProtectedRoute>
+                  <AgeSelection />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Router>
       </AuthProvider>
