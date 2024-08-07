@@ -14,7 +14,7 @@ import LoadingScreen from '../components/Story/LoadingScreen';
 import { useAuth } from '../context/AuthContext';
 
 const CreateStoryPage: React.FC = () => {
-  const { isAuthenticated} = useAuth();
+  const { isAuthenticated, userProfile } = useAuth();
   const [step, setStep] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
@@ -85,10 +85,14 @@ const CreateStoryPage: React.FC = () => {
       alert('Authentication token is missing.');
       return;
     }
-  
+    if (!userProfile) {
+      alert('User profile is missing.');
+      return;
+    }
+
     setLoading(true);
     try {
-      const generatedStory = await createStory(inputs, token); // Pass token to createStory
+      const generatedStory = await createStory(inputs, token, userProfile.id); // Pass user ID to createStory
       console.log('generatedStory:', generatedStory);
       setLoading(false);
       navigate('/story', { state: { story: generatedStory } });

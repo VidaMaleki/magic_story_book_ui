@@ -1,36 +1,43 @@
-// api/storyService.ts
-import axios from 'axios';
+
 import { Inputs } from '../components/types';
 
-export const createStory = async (inputs: Inputs, token: string) => {
+export const createStory = async (inputs: Inputs, token: string, userId: number) => {
+  const url = 'http://localhost:8081/api/stories/create';
+
+  const data = {
+    genre: inputs.genre,
+    setting: inputs.setting,
+    characters: inputs.characters,
+    title: inputs.title,
+    specialMessage: inputs.specialMessage,
+    ageRange: inputs.ageRange, 
+    wordRange: inputs.wordRange,
+    userId: userId 
+  };
+
   if (!token) {
     throw new Error('No authentication token found. Please log in.');
   }
-  console.log('inputs:', inputs, 'token:', token);
+
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/stories/create`,
-      {
-        genre: inputs.genre,
-        setting: inputs.setting,
-        characters: inputs.characters,
-        title: inputs.title,
-        specialMessage: inputs.specialMessage,
-        ageRange: inputs.ageRange, 
-        wordRange: inputs.wordRange, 
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error('Error creating story: ' + error.response.data.error);
-    } else {
-      throw new Error('Error creating story: ' + (error as Error).message);
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.log('errorData:', errorData.error);
+      throw new Error('Error creating story: ' + errorData.error);
     }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    throw new Error('Error creating story: ' + (error as Error).message);
   }
 };
