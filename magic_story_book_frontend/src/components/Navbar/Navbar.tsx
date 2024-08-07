@@ -35,9 +35,9 @@ const Navbar = () => {
           isSelected={selected === "/"}
         />
         <NavButton
-          path="/my-story"
-          label="My Story"
-          isSelected={selected === "/my-story"}
+          path="/my-stories"
+          label="My Stories"
+          isSelected={selected === "/my-stories"}
         />
         <NavButton
           path="/library"

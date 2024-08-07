@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CreateStoryPage from "./pages/CreateStoryPage";
 import LibraryPage from "./pages/LibraryPage";
-import AgeSelection from "./pages/AgeSelection";
 import SignInPage from "./pages/SignupPage";
 import ErrorBoundary from "./components/ErrorBoundary";
 import GoogleSignin from "./components/GoogleSignin/GoogleSignin";
@@ -10,6 +9,7 @@ import OAuth2Callback from "./pages/OAuth2Callback";
 import StoryPage from "./pages/Story";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import MyStories from "./pages/MyStories";
 
 const App: React.FC = () => {
   return (
@@ -38,10 +38,10 @@ const App: React.FC = () => {
               }
             />
             <Route
-              path="/ageselection"
+              path="/my-stories"
               element={
                 <ProtectedRoute>
-                  <AgeSelection />
+                  <MyStories />
                 </ProtectedRoute>
               }
             />
