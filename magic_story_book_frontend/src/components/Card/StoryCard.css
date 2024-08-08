@@ -4,14 +4,23 @@
   height: 200px;
   margin: 10px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s;
   background-size: cover;
-  background-position: center;
+  background-position: center;filter: brightness(0.8);
 }
-
+.story-card:hover {
+  transform: scale(1.05);
+}
+.story-card img {
+  filter: brightness(0.7);
+  transition: filter 0.2s;
+}
+.story-card:hover img {
+  filter: brightness(0.5);
+}
 .story-card-content {
   position: absolute;
   bottom: 0;

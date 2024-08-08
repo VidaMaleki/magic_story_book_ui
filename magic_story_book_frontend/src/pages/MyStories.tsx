@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import StoryCard from "../components/Card/StoryCard";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import "../styles/MyStories.css";
 import Navbar from "../components/Navbar/Navbar";
-
-interface Story {
-  id: number;
-  title: string;
-  image: string;
-  content: string;
-}
+import { extractContent, capitalizeFirstLetter } from '../utiles/helper'; // Ensure you import the function
+import { Story } from "../components/types";
 
 const MyStories: React.FC = () => {
   const { userProfile, isAuthenticated, token } = useAuth();
   const [stories, setStories] = useState<Story[]>([]);
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isAuthenticated && userProfile) {
@@ -64,11 +60,6 @@ const MyStories: React.FC = () => {
     }
   };
 
-  // const handleEdit = (id: number) => {
-  //   console.log(`Edit story with id: ${id}`);
-  //   // Handle edit logic
-  // };
-
   const handleCardClick = (story: Story) => {
     setSelectedStory(story);
   };
@@ -76,6 +67,28 @@ const MyStories: React.FC = () => {
   const handleClosePopup = () => {
     setSelectedStory(null);
   };
+
+  const handleError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    event.currentTarget.src = "/images/default2.webp"; // Ensure this path is correct
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+      handleClosePopup();
+    }
+  };
+
+  useEffect(() => {
+    if (selectedStory) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [selectedStory]);
 
   return (
     <div className="my-stories-page-container">
@@ -88,25 +101,28 @@ const MyStories: React.FC = () => {
             <StoryCard
               key={story.id}
               id={story.id}
-              title={story.title}
+              title={capitalizeFirstLetter(story.title)} // Apply the helper function here
               image={story.image}
               onDelete={handleDelete}
-              // onEdit={handleEdit}
               onClick={() => handleCardClick(story)}
             />
           ))}
         </div>
         {selectedStory && (
           <div className="story-popup">
-            <div className="story-popup-content">
-              <h2>{selectedStory.title}</h2>
+            <div className="story-popup-content" ref={popupRef}>
+              <button className="popup-close-button" onClick={handleClosePopup}>
+                &times;
+              </button>
+              <h2>{capitalizeFirstLetter(selectedStory.title)}</h2> {/* Apply the helper function here */}
               <img
                 src={selectedStory.image}
                 alt={selectedStory.title}
                 className="story-popup-image"
+                onError={handleError}
               />
-              <p>{selectedStory.content}</p>
-              <button onClick={handleClosePopup}>Close</button>
+              <p>{extractContent(selectedStory.content)}</p>
+              
             </div>
           </div>
         )}
