@@ -14,10 +14,23 @@
 }
 
 .loading-content {
-  text-align: center;
+  text-align: center;margin-top: -200px;
+  color: rgb(26, 26, 26);
+}
+
+.book-and-pencil {
+  position: relative;
+}
+
+.loading-book {
+  width: 300px;
+  height: auto;
 }
 
 .loading-pencil {
+  position: absolute;
+  top: 150px;
+  left: 300px;
   width: 100px;
   height: auto;
   animation: pencil-writing-animation 2s linear infinite;
@@ -96,7 +109,7 @@
   margin-bottom: 20px;
 }
 
-.story-page p {
+.story-page p {color:rgb(17, 16, 16);
   font-size: 1.2em;
   line-height: 1.5;
 }
