@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import "../styles/Story.css";
-import { extractContent } from "../utiles/helper";
+import { extractContentFromResponse } from "../utiles/helper";
 
 const StoryPage: React.FC = () => {
   const location = useLocation();
@@ -13,16 +13,20 @@ const StoryPage: React.FC = () => {
   ) => {
     event.currentTarget.src = "/images/default.webp";
   };
-  console.log("Story object:", extractContent(story.content));
-  console.log("Story title:", story);
+
+  // Safely extract content
+  const storyContent = story ? extractContentFromResponse(story.content) : null;
+
+  console.log("Story object:", story);
+  console.log("Extracted Story content:", storyContent);
 
   return (
     <div className="story-page-container">
       <Navbar />
       <main className="story-main-content">
-        <h1>{story.title}</h1>
+        <h1>{story?.title}</h1>
         <div className="story-content">
-          {story.image && (
+          {story?.image && (
             <img
               src={story.image}
               alt="Story Illustration"
@@ -30,7 +34,7 @@ const StoryPage: React.FC = () => {
               onError={handleError}
             />
           )}
-          <p>{extractContent(story.content)}</p>
+          <p>{storyContent}</p>
         </div>
       </main>
     </div>

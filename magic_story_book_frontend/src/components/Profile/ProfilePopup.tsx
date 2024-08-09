@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../../styles/ProfilePopup.css";
 import { useAuth } from "../../context/AuthContext";
+import axios from "axios";
 
 interface ProfilePopupProps {
   onClose: () => void;
@@ -10,25 +10,7 @@ interface ProfilePopupProps {
 
 const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
   const navigate = useNavigate();
-  const { userProfile, setUserProfile, logout } = useAuth();
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        console.log("Fetching profile...");
-        const response = await axios.get("http://localhost:8081/api/user/profile", { withCredentials: true });
-        console.log("Profile response:", response);
-        setUserProfile(response.data);
-      } catch (error) {
-        console.error("Failed to fetch profile", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [setUserProfile]);
+  const { userProfile, logout, setUserProfile } = useAuth();
 
   const handleDeleteAccount = async () => {
     if (!userProfile?.id) {
@@ -50,16 +32,14 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
     }
   };
 
-  if (loading) {
-    return (
-      <>
-        <div className="profile-popup-overlay" />
-        <div className="loading-container">
-          <div>Loading...</div>
-        </div>
-      </>
-    );
-  }
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.reload(); // Reload the page to reset the state
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <>
@@ -73,33 +53,17 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
         </div>
         <div className="profile-popup-content">
           <div className="profile-photo">
-            <img src="/images/profile.png" alt="Profile" />
-            <button className="change-photo-button">Change Photo</button>
+            <img
+              src={userProfile?.profilePicture ? userProfile.profilePicture : "/images/profile.png"}
+              alt="Profile"
+            />
           </div>
           <div className="profile-fields">
             <h3>{userProfile?.firstName} {userProfile?.lastName}</h3>
-            <div className="field-group">
-              <label>Child's age</label>
-              <select value={userProfile?.age || "3 years old"} disabled>
-                <option>3 years old</option>
-                <option>4 years old</option>
-                <option>5 years old</option>
-                <option>6 years old</option>
-                <option>7 years old</option>
-                <option>8 years old</option>
-              </select>
-            </div>
-            <div className="field-group">
-              <label>Starting Lexile</label>
-              <input type="text" placeholder="520L" value={userProfile?.lexile || ""} disabled />
-            </div>
           </div>
         </div>
-        <div className="profile-popup-footer">
-          <button className="save-button">Save Changes</button>
-        </div>
         <div className="profile-popup-actions">
-          <button onClick={logout} className="logout-button">
+          <button onClick={handleLogout} className="logout-button">
             Log Out
           </button>
           <button onClick={handleDeleteAccount} className="delete-button">

@@ -7,8 +7,8 @@ interface UserProfile {
   email: string;
   firstName: string;
   lastName: string;
-  age: string;
-  lexile: string;
+  profilePicture: string | null;
+  stories: Array<{ id: number; userId: number; genre: string; setting: string; title: string }>;
 }
 
 interface AuthContextProps {
@@ -46,11 +46,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get('http://localhost:8081/api/user/profile', {
-        withCredentials: true
+        withCredentials: true,
       });
+  
       if (response.data) {
         const { user, token } = response.data;
-        setUserProfile(user);
+        setUserProfile({
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          profilePicture: user.profilePicture,
+          stories: user.stories || [],
+        });
         if (token) {
           setToken(token);
           localStorage.setItem('authToken', token);

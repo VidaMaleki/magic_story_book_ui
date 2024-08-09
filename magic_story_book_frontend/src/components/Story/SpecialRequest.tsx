@@ -1,7 +1,6 @@
-import React, { ChangeEvent } from "react";
-import "../../styles/SpecialRequest.css";
+import { ChangeEvent } from "react";
 import { Inputs } from "../types";
-
+import "../../styles/SpecialRequest.css";
 interface SpecialRequestProps {
   setInputs: React.Dispatch<React.SetStateAction<Inputs>>;
   inputs: Inputs;
@@ -34,7 +33,7 @@ const SpecialRequest: React.FC<SpecialRequestProps> = ({
             <label htmlFor="word-count">Word Count:</label>
             <select
               id="word-count"
-              name="wordCount"
+              name="wordRange"
               value={inputs.wordRange}
               onChange={handleInputChange}
             >
@@ -49,7 +48,7 @@ const SpecialRequest: React.FC<SpecialRequestProps> = ({
             <label htmlFor="age-selection">Child's Age Range:</label>
             <select
               id="age-selection"
-              name="age"
+              name="ageRange"
               value={inputs.ageRange}
               onChange={handleInputChange}
             >

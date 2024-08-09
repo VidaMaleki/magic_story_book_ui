@@ -10,9 +10,13 @@ export const getSignedUrl = async (imagePath: string) => {
   return response.data.signedUrl;
 };
 
-export const extractContent = (str: string) => {
-  const contentMatch = str.match(/content=(.*?),\s*refusal=null/);
-  return contentMatch ? contentMatch[1] : null;
+export const extractContentFromResponse = (responseContent: string): string => {
+  const parts = responseContent.split("content=");
+  if (parts.length > 1) {
+      return parts[1].split(", refusal")[0].trim();
+  } else {
+      return "No content found";
+  }
 };
 
 export const capitalizeFirstLetter = (string: string) => {

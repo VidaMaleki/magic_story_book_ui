@@ -20,3 +20,11 @@ export interface LibraryProps {
   image: string;
   content: string;
 }
+
+export interface UserProps {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  profilePicture: string;
+}

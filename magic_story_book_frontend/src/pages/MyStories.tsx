@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import "../styles/MyStories.css";
 import Navbar from "../components/Navbar/Navbar";
-import { extractContent, capitalizeFirstLetter } from '../utiles/helper'; // Ensure you import the function
+import { extractContentFromResponse, capitalizeFirstLetter } from '../utiles/helper'; // Ensure you import the function
 import { Story } from "../components/types";
 
 const MyStories: React.FC = () => {
@@ -12,13 +12,9 @@ const MyStories: React.FC = () => {
   const [stories, setStories] = useState<Story[]>([]);
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const popupRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isAuthenticated && userProfile) {
-      fetchStories();
-    }
-  }, [isAuthenticated, userProfile]);
+  const userId = userProfile?.id || 0;
 
   const fetchStories = async () => {
     try {
@@ -42,6 +38,17 @@ const MyStories: React.FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated && userId) {
+      setLoading(false);
+      fetchStories();
+    }
+  }, [isAuthenticated, userProfile]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const handleDelete = async (id: number) => {
     try {
@@ -72,23 +79,11 @@ const MyStories: React.FC = () => {
     event.currentTarget.src = "/images/default2.webp"; // Ensure this path is correct
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
       handleClosePopup();
     }
   };
-
-  useEffect(() => {
-    if (selectedStory) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [selectedStory]);
 
   return (
     <div className="my-stories-page-container">
@@ -109,7 +104,7 @@ const MyStories: React.FC = () => {
           ))}
         </div>
         {selectedStory && (
-          <div className="story-popup">
+          <div className="story-popup" onClick={handleOverlayClick}>
             <div className="story-popup-content" ref={popupRef}>
               <button className="popup-close-button" onClick={handleClosePopup}>
                 &times;
@@ -121,8 +116,7 @@ const MyStories: React.FC = () => {
                 className="story-popup-image"
                 onError={handleError}
               />
-              <p>{extractContent(selectedStory.content)}</p>
-              
+              <p>{extractContentFromResponse(selectedStory.content)}</p>
             </div>
           </div>
         )}
