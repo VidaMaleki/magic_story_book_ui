@@ -4,8 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import "../styles/MyStories.css";
 import Navbar from "../components/Navbar/Navbar";
-import { extractContentFromResponse, capitalizeFirstLetter } from '../utiles/helper'; // Ensure you import the function
+import { extractContentFromResponse, capitalizeFirstLetter } from '../utiles/helper';
 import { Story } from "../components/types";
+import { useNavigate } from "react-router-dom";
 
 const MyStories: React.FC = () => {
   const { userProfile, isAuthenticated, token } = useAuth();
@@ -15,11 +16,12 @@ const MyStories: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const popupRef = useRef<HTMLDivElement>(null);
   const userId = userProfile?.id || 0;
+  const navigate = useNavigate();
 
   const fetchStories = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/api/user/${userProfile?.id}/stories`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/${userProfile?.id}/stories`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -36,12 +38,13 @@ const MyStories: React.FC = () => {
         console.log("Error:", error);
         setError("An unknown error occurred");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     if (isAuthenticated && userId) {
-      setLoading(false);
       fetchStories();
     }
   }, [isAuthenticated, userProfile]);
@@ -57,7 +60,7 @@ const MyStories: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchStories(); // Refresh the stories list after deletion
+      fetchStories();
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data?.message || "Failed to delete story");
@@ -76,7 +79,7 @@ const MyStories: React.FC = () => {
   };
 
   const handleError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    event.currentTarget.src = "/images/default2.webp"; // Ensure this path is correct
+    event.currentTarget.src = "/images/default2.webp";
   };
 
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -91,25 +94,32 @@ const MyStories: React.FC = () => {
       <div className="my-stories-page">
         <h1>My Stories</h1>
         {error && <div className="error-message">{error}</div>}
-        <div className="stories-container">
-          {stories.map((story) => (
-            <StoryCard
-              key={story.id}
-              id={story.id}
-              title={capitalizeFirstLetter(story.title)} // Apply the helper function here
-              image={story.image}
-              onDelete={handleDelete}
-              onClick={() => handleCardClick(story)}
-            />
-          ))}
-        </div>
+        {stories.length === 0 ? (
+          <div className="no-stories-message">
+            <p>You have no stories yet.</p>
+            <p>Click <span onClick={() => navigate("/")} style={{ color: "blue", cursor: "pointer", textDecoration: "underline" }}>here</span> to create your first story!</p>
+          </div>
+        ) : (
+          <div className="stories-container">
+            {stories.map((story) => (
+              <StoryCard
+                key={story.id}
+                id={story.id}
+                title={capitalizeFirstLetter(story.title)}
+                image={story.image}
+                onDelete={handleDelete}
+                onClick={() => handleCardClick(story)}
+              />
+            ))}
+          </div>
+        )}
         {selectedStory && (
           <div className="story-popup" onClick={handleOverlayClick}>
             <div className="story-popup-content" ref={popupRef}>
               <button className="popup-close-button" onClick={handleClosePopup}>
                 &times;
               </button>
-              <h2>{capitalizeFirstLetter(selectedStory.title)}</h2> {/* Apply the helper function here */}
+              <h2>{capitalizeFirstLetter(selectedStory.title)}</h2>
               <img
                 src={selectedStory.image}
                 alt={selectedStory.title}

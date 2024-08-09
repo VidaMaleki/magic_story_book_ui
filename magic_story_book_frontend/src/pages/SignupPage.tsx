@@ -13,36 +13,34 @@ const SignInPage: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/api/user/profile', {
-          withCredentials: true
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/signup`, {
+          withCredentials: true,
         });
-        console.log('User profile:', response.data);
-    
+  
         if (response.data) {
           const { user, token } = response.data;
-    
-          // Update the user profile in context
+  
           setUserProfile(user);
-    
-          // Store token in local storage and update context
+  
           if (token) {
             localStorage.setItem('authToken', token);
             setToken(token);
           }
-    
-          navigate('/'); // Redirect to the home page or desired route
+  
+          navigate('/'); // Redirect to the home page after signup
         }
       } catch (error) {
         console.error('User not logged in:', error);
       }
     };
+  
     if (!isAuthenticated) {
       fetchUser();
     } else {
       navigate('/');
     }
   }, [isAuthenticated, location, navigate, setUserProfile, setToken]);
-
+  
   return (
     <div className="signup-container">
       <SimpleNavbar />

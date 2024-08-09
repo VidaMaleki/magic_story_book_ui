@@ -28,11 +28,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [token, setToken] = useState<string | null>(localStorage.getItem('authToken') || null);
 
   const login = () => {
-    window.location.href = 'http://localhost:8081/login/oauth2/code/google';
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login/oauth2/code/google`;
   };
 
   const logout = () => {
-    axios.post('http://localhost:8081/api/logout', {}, { withCredentials: true })
+    axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, {}, { withCredentials: true })
       .then(() => {
         setUserProfile(null);
         setToken(null);
@@ -45,7 +45,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/user/profile', {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/profile`, {
         withCredentials: true,
       });
   

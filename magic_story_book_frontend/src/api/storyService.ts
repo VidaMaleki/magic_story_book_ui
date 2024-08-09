@@ -2,7 +2,7 @@
 import { Inputs } from '../components/types';
 
 export const createStory = async (inputs: Inputs, token: string, userId: number) => {
-  const url = 'http://localhost:8081/api/stories/create';
+  const url =  `${import.meta.env.VITE_BACKEND_URL}/api/stories/create`;
 
   const data = {
     genre: inputs.genre,

@@ -19,7 +19,7 @@ const ProfilePopup: FC<ProfilePopupProps> = ({ onClose }) => {
     }
 
     try {
-      const response = await axios.delete(`http://localhost:8081/api/user/${userProfile.id}`, { withCredentials: true });
+      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/user/${userProfile.id}`, { withCredentials: true });
       console.log("Delete account response:", response);
       if (response.status === 200 || response.status === 204) {
         setUserProfile(null);
