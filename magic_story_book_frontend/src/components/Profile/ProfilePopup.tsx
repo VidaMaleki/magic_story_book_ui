@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/ProfilePopup.css";
 import { useAuth } from "../../context/AuthContext";

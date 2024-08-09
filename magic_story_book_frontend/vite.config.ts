@@ -13,6 +13,7 @@ export default defineConfig({
     },
   },
   server: {
+    port: 5175, // Set the port to 5175
     proxy: {
       "/api": {
         target: "http://localhost:8081", // Your backend server URL
@@ -21,4 +22,5 @@ export default defineConfig({
       },
     },
   },
+
 });

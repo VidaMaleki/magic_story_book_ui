@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Navbar from "../components/Navbar/Navbar";
 import StoryCard from "../components/Card/StoryCard";
 import { LibraryProps } from "../components/types";
