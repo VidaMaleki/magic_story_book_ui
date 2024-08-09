@@ -1,4 +1,3 @@
-// context/AuthContext.tsx
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import axios from 'axios';
 
