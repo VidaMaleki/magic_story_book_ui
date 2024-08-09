@@ -13,6 +13,7 @@ export default defineConfig({
     },
   },
   server: {
+    port: process.env.PORT ? parseInt(process.env.PORT) : 5173,
     proxy: {
       "/api": {
         target: "https://magicstorybook.onrender.com", // Your backend server URL
