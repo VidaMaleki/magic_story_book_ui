@@ -13,10 +13,9 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5175, // Set the port to 5175
     proxy: {
       "/api": {
-        target: "http://localhost:8081", // Your backend server URL
+        target: "https://magicstorybook.onrender.com", // Your backend server URL
         changeOrigin: true,
         secure: false,
       },
