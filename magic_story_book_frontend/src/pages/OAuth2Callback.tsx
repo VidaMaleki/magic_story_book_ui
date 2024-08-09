@@ -10,7 +10,7 @@ const OAuth2Callback: React.FC = () => {
 
     if (token) {
       localStorage.setItem('authToken', token);
-      navigate('/dashboard'); // Redirect to the intended page after storing the token
+      navigate('/'); // Redirect to the intended page after storing the token
     } else {
       navigate('/signup'); // Handle error or redirect to signup
     }

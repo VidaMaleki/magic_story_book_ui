@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [token, setToken] = useState<string | null>(localStorage.getItem('authToken') || null);
 
   const login = () => {
-    window.location.href = 'http://localhost:8081/oauth2/code/google';
+    window.location.href = 'http://localhost:8081/login/oauth2/code/google';
   };
 
   const logout = () => {
