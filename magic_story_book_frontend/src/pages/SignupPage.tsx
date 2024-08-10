@@ -26,7 +26,7 @@ const SignInPage: React.FC = () => {
             localStorage.setItem('authToken', token);
             setToken(token);
           }
-  
+          console.log('User profile in sign up:', user, 'authToken', token);
           navigate('/'); // Redirect to the home page after signup
         }
       } catch (error) {

@@ -63,6 +63,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           localStorage.setItem('authToken', token);
         }
       }
+      console.log('User profile:', response.data);
     } catch (error) {
       console.error('User not logged in:', error);
     }
@@ -71,6 +72,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     if (token) {
       fetchUserProfile();
+      console.log('Token:', token);
     }
   }, [token]);
 

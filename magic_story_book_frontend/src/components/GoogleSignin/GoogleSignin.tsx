@@ -13,7 +13,7 @@ const GoogleSignIn: React.FC = () => {
       localStorage.setItem('authToken', response.credential);
 
       // Redirect to the backend endpoint to complete signup
-      window.location.href = `${import.meta.env.VITE_BACKEND_URL}http://localhost:/signup/complete`;
+      window.location.href = `${import.meta.env.VITE_BACKEND_URL}/signup/complete`;
     }
   };
 
